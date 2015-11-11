@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>Pagina Inicio</servlet-name>
+        <jsp-file>/inicio.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Pagina Login</servlet-name>
+        <jsp-file>/ui002login.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Pagina Contato</servlet-name>
+        <jsp-file>/ui003contato.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Pagina Home</servlet-name>
+        <jsp-file>/ui005home.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Pagina Redirecionamento</servlet-name>
+        <jsp-file>/pagina-de-redirecionamento.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Pagina Inicio</servlet-name>
+        <url-pattern>/inicio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Pagina Login</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Pagina Contato</servlet-name>
+        <url-pattern>/contato</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Pagina Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Pagina Redirecionamento</servlet-name>
+        <url-pattern>/pagina-de-redirecionamento</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            7
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>inicio.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
