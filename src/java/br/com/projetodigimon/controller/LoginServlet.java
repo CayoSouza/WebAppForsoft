@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package br.com.projetodigimon.controller;
 
 import br.com.projetodigimon.dao.DaoAcesso;
@@ -22,51 +23,45 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author user
+ * @author Javapos
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ClassNotFoundException {
-        
-        PrintWriter out = response.getWriter();
-        Acesso a = new Acesso();
-        DaoAcesso daoA = new DaoAcesso();
-        
+            throws ServletException, IOException {
         String usuario = request.getParameter("usuario");
         String senha = request.getParameter("senha");
-
-        a.setUsuario(usuario);
-
-        boolean existe = daoA.existe(a);
-        
-        out.println("EOQQQQQ");
-        out.println(existe);
-
-        if (existe) {
-            out.println("Usuario " + a.getUsuario() + " Existe!");
-        } else {
-            out.println("Usuario " + a.getUsuario() + " Não Existe!");
+        Acesso user = null;
+        try {
+            user = DaoAcesso.getUsuario(usuario, senha);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        /*if(usuario.equalsIgnoreCase("admin") && senha.equalsIgnoreCase("123")){
-         Acesso acesso = new Acesso();
-         acesso.setUsuario(usuario);
-         acesso.setSenha(senha);
-         acesso.setTipoUsuario("4");
-         acesso.setIdAcesso(1);
+        
+        if (user != null){
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
             
-         String userId = String.valueOf(acesso.getIdAcesso());
-         Cookie cookie = new Cookie("userId", userId);
-         cookie.setMaxAge(7 * 60);
-         response.addCookie(cookie);
-            
-         HttpSession session = request.getSession();
-         session.setAttribute("user", acesso);
-            
-         response.sendRedirect("home");
-         }*/
+            Cookie loginCookie = new Cookie("userId", String.valueOf(user.getIdAcesso()));
+            loginCookie.setMaxAge(7 * 60);
+            response.addCookie(loginCookie);
+        }
+        else {
+            request.setAttribute("error", "Usuário ou senha incorreto(s).");
+            request.getRequestDispatcher("inicio").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,14 +76,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        processRequest(request, response);
     }
 
     /**
@@ -102,13 +90,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
